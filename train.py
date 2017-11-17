@@ -9,7 +9,7 @@ def n_samples(path):
     return len(glob.glob(path +'/*'))
 
 batch_size = 4
-epochs = 15
+epochs = 20
 
 train_data_dir = 'train_google_earth/train'
 validation_data_dir = 'train_google_earth/validation'
