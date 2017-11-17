@@ -3,6 +3,10 @@ from os.path import isfile, join
 import numpy as np
 from PIL import Image, ImageMath
 
+images_path = 'train_google_earth/preprocess/images'
+target_maps_path = 'train_google_earth/preprocess/target_maps'
+result_path = 'train_google_earth/preprocess/result'
+
 n_cols = 3
 n_rows = 3
 
@@ -45,13 +49,13 @@ def apply_mask(image, mask):
     return Image.composite(image, corrected_mask, mask=corrected_mask).convert('RGB')
 
 
-for image_name in file_names('train_google_earth/preprocess\\images'):
-    im = Image.open('train_google_earth/preprocess\\images\\{}'.format(image_name)).convert('RGB')
+for image_name in file_names(images_path):
+    im = Image.open(images_path + '/' + image_name).convert('RGB')
     mask_name = change_filename_ext(image_name, 'tif')
-    mask = Image.open('train_google_earth/preprocess\\target_maps\\{}'.format(mask_name)).convert('RGB')
+    mask = Image.open(target_maps_path + '/' + mask_name).convert('RGB')
 
     masked_im = apply_mask(im, mask)
     width, height = masked_im.size
     for i, box in enumerate(tile_traverse_gen(width, height, n_rows, n_cols)):
         im_part_name = gen_image_part_name(image_name, i, 'png')
-        masked_im.crop(box).save(im_part_name, 'PNG')
+        masked_im.crop(box).save(result_path + '/' + im_part_name, 'PNG')
