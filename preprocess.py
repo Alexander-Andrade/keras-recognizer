@@ -7,8 +7,8 @@ images_path = 'train_google_earth/preprocess/images'
 target_maps_path = 'train_google_earth/preprocess/target_maps'
 result_path = 'train_google_earth/preprocess/result'
 
-n_cols = 3
-n_rows = 3
+n_cols = 5
+n_rows = 5
 
 
 def file_names(path):
