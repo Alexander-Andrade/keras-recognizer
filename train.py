@@ -73,4 +73,4 @@ model.fit_generator(
     validation_data=validation_generator,
     validation_steps=n_validation_samples // batch_size)
 
-model.save_weights('trained_google_earth.h5')
+model.save('trained_google_earth.h5')
