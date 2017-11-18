@@ -55,7 +55,9 @@ train_generator = datagen.flow_from_directory(
     target_size=(img_width, img_height),
     batch_size=batch_size,
     class_mode='binary')
-data = next(train_generator)
+
+el = next(train_generator)
+
 n_train_samples = train_generator.samples
 
 validation_generator = datagen.flow_from_directory(
