@@ -24,6 +24,8 @@ else:
 
 
 samples_names_gen = samples_utils.file_names(test_path)
+next(samples_names_gen)
+next(samples_names_gen)
 file_name = next(samples_names_gen)
 im = cv.imread(test_path + '/' + file_name)
 im = cv.cvtColor(im, cv.COLOR_BGR2RGB)
@@ -35,10 +37,9 @@ edges = cv.Canny(im, 100, 200)
 
 im2, contours, hierarchy = cv.findContours(edges, 1, 2)
 contours = list(filter(lambda c: cv.contourArea(c) > 200, contours))
-moments = cv.moments(contours[0])
 
-cv.drawContours(im, contours, -1, (255,0 , 0), 1)
-cv.imshow('orig contours', im)
+# cv.drawContours(im, contours, -1, (255,0 , 0), 1)
+# cv.imshow('orig contours', im)
 
 # contours = list(filter(lambda c: elongation(cv.moments(c)) < 3000, contours))
 # contours = list(filter(lambda c: cv.arcLength(c, False) > 100, contours))
@@ -54,7 +55,9 @@ for x, y, w, h in bounding_rects:
     im_to_model = cv.resize(croped_im, (img_width, img_height)).astype(np.float32)
     im_to_model /= 255
     im_to_model = np.expand_dims(im_to_model, axis=0)
-    if model.predict(im_to_model) > 0.5:
+    cv.rectangle(im, (x, y), (x + w, y + h), (255, 0, 0), 1)
+    # print(model.predict_classes(im_to_model))
+    if model.predict_classes(im_to_model)[0][0] == 1:
         cv.rectangle(im, (x, y), (x+w, y+h), (0, 0, 255), 1)
 
 

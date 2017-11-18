@@ -56,8 +56,6 @@ train_generator = datagen.flow_from_directory(
     batch_size=batch_size,
     class_mode='binary')
 
-el = next(train_generator)
-
 n_train_samples = train_generator.samples
 
 validation_generator = datagen.flow_from_directory(
