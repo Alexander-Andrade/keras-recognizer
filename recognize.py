@@ -26,9 +26,11 @@ else:
 samples_names_gen = samples_utils.file_names(test_path)
 next(samples_names_gen)
 next(samples_names_gen)
+next(samples_names_gen)
 file_name = next(samples_names_gen)
 im = cv.imread(test_path + '/' + file_name)
 im = cv.cvtColor(im, cv.COLOR_BGR2RGB)
+out_im = im.copy()
 print("cv format: {}".format(im.shape))
 
 edges = cv.Canny(im, 100, 200)
@@ -48,20 +50,21 @@ contours = list(filter(lambda c: cv.contourArea(c) > 200, contours))
 
 # cv.drawContours(im, contours, -1, (0,255,0), 1)
 # cv.imshow('filtered', im)
-
 bounding_rects = list(map(lambda c: cv.boundingRect(c), contours))
 for x, y, w, h in bounding_rects:
     croped_im = im[y:y + h, x:x + w]  # Crop from x, y, w, h -> 100, 200, 300, 400
-    im_to_model = cv.resize(croped_im, (img_width, img_height)).astype(np.float32)
+    im_to_model = cv.resize(croped_im, (img_width, img_height))
+    cv.imshow('part' + str(i), im_to_model)
+    im_to_model = im_to_model.astype(np.float32)
     im_to_model /= 255
     im_to_model = np.expand_dims(im_to_model, axis=0)
-    cv.rectangle(im, (x, y), (x + w, y + h), (255, 0, 0), 1)
+    cv.rectangle(out_im, (x, y), (x + w, y + h), (255, 0, 0), 1)
     # print(model.predict_classes(im_to_model))
     if model.predict_classes(im_to_model)[0][0] == 1:
-        cv.rectangle(im, (x, y), (x+w, y+h), (0, 0, 255), 1)
+        cv.rectangle(out_im, (x, y), (x+w, y+h), (0, 0, 255), 1)
 
 
-cv.imshow('rects', im)
+cv.imshow('rects', out_im)
 
 # im_to_model = np.expand_dims(im_to_model, axis=0)
 # print(im_to_model.shape)
