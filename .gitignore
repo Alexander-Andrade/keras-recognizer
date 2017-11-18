@@ -1,2 +1,3 @@
 .idea/
 train_google_earth/
+__pycache__/
