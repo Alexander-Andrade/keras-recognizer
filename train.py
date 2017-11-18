@@ -9,12 +9,12 @@ def n_samples(path):
     return len(glob.glob(path +'/*'))
 
 batch_size = 4
-epochs = 20
+epochs = 10
 
 train_data_dir = 'train_google_earth/train'
 validation_data_dir = 'train_google_earth/validation'
 
-img_width, img_height = 300, 300
+img_width, img_height = 400, 400
 
 n_has_buildings = n_samples('train_google_earth/train/has_buildings')
 n_has_not_buildings = n_samples('train_google_earth/train/has_no_buildings')
@@ -34,6 +34,14 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Conv2D(64, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(64, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
